@@ -14,10 +14,8 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import {
-  AdminAnalyticsChart,
-  type AnalyticsChartRow,
-} from '@/components/dashboard/admin/admin-analytics-chart'
+import { AdminAnalyticsChartLazy } from '@/components/dashboard/admin/admin-analytics-chart-lazy'
+import type { AnalyticsChartRow } from '@/components/dashboard/admin/admin-analytics-chart'
 import { pctChange } from '@/lib/admin/analytics-definitions'
 import type { MetricPair } from '@/lib/admin/get-admin-analytics'
 import type { Locale } from '@/lib/i18n/config'
@@ -150,7 +148,7 @@ export function AdminAnalyticsSection({
           ))}
         </div>
 
-        <AdminAnalyticsChart rows={chartRows} ariaLabelKey={chartAriaLabelKey} />
+        <AdminAnalyticsChartLazy rows={chartRows} ariaLabelKey={chartAriaLabelKey} />
 
         <details>
           <summary className="cursor-pointer text-xs font-medium text-muted-foreground">
