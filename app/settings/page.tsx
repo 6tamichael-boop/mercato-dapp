@@ -37,11 +37,17 @@ export default async function SettingsPage({
   if (!user) redirect('/auth/login')
 
   // Sequential by necessity: the profile query depends on user.id.
-  const { data: row } = await supabase
+  const { data: row, error: profileError } = await supabase
     .from('profiles')
     .select(PROFILE_COLUMNS)
     .eq('id', user.id)
     .single()
+
+  // PGRST116 = no rows found, expected for a brand-new user pre-onboarding.
+  // Anything else is a real failure and should not be swallowed silently.
+  if (profileError && profileError.code !== 'PGRST116') {
+    console.error('Failed to load profile for settings page', profileError)
+  }
 
   const initialForm: ProfileFormState = row
     ? {
