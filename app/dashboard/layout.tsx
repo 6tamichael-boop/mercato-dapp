@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation'
 import { DashboardShell } from '@/components/dashboard/dashboard-shell'
 import { getDashboardSession } from '@/lib/dashboard/get-dashboard-session'
 import { needsOnboarding, ONBOARDING_SETTINGS_PATH } from '@/lib/profile/onboarding'
+import { getServerAuthForRedirect } from '@/lib/auth/server-auth-helper'
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const { user, profile } = await getDashboardSession()
@@ -14,7 +15,5 @@ export default async function DashboardLayout({ children }: { children: React.Re
     redirect(ONBOARDING_SETTINGS_PATH)
   }
 
-  const userType = profile?.user_type ?? 'pyme'
-
-  return <DashboardShell userType={userType}>{children}</DashboardShell>
+  return <DashboardShell userType={userType ?? 'pyme'}>{children}</DashboardShell>
 }
